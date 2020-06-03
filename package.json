@@ -1,0 +1,23 @@
+{
+  "name": "node-docker-nginx",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "docker build --tag ns:0 ./",
+    "ns0": "docker create --name NS0 -p 3000:3000 ns:0",
+    "ns1": "docker create --name NS1 -p 3001:3000 ns:0",
+    "s-ns0": "docker start NS0",
+    "s-ns1": "docker start NS1"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "uuid": "^8.1.0"
+  }
+}
