@@ -51,6 +51,18 @@ Error: connect EADDRINUSE 127.0.0.1:3000
     at TCPConnectWrap.afterConnect [as oncomplete] 
 ```
 이 오류는 포트가 이미 사용중인데 또 연결하려고 하면 난다고 한다.
+
+```
+  $ netstat -q
+  TCP    127.0.0.1:3000         kubernetes:55864       TIME_WAIT
+  TCP    127.0.0.1:3000         kubernetes:55865       TIME_WAIT
+  TCP    127.0.0.1:3000         kubernetes:55866       TIME_WAIT
+  TCP    127.0.0.1:3000         kubernetes:55867       TIME_WAIT
+  TCP    127.0.0.1:3000         kubernetes:55868       TIME_WAIT
+  ...
+```
+클라이언트에서 요청을 할 때 49152 ~ 65535 범위에서 포트를 생성하게 되는데  
+만개의 포트를 생성해서 동작하고 60초라는 TIME_WAIT으로 커넥션이 종료되지 않고 남아있는 포트를 다시 사용하려 해서 오류가 났다. 어쩐지 워커를 10개로 늘리니까 오류가 나길래 이상했는데 너무 빨리 모든 요청이 처리돼서 타임아웃이 안끊킨 상태로 다시 동작하니까 오류가 난거였다.  
 ### # 2 : 
 
 
